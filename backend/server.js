@@ -38,13 +38,22 @@ app.listen(PORT,()=>{
 
 
 //error handler must be written at the end
-app.use((err,req,res,next) => {
-    const statusCode = err.StatusCode || 500
-    const message = err.message ||  "internal server error"
+// app.use((err,req,res,next) => {
+//     const statusCode = err.StatusCode || 500
+//     const message = err.message ||  "internal server error"
 
-    return res.status(statusCode).json({
+//     return res.status(statusCode).json({
+//         success: false,
+//         statusCode,
+//         message,
+//     })
+// })
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(err.status || 500).json({
         success: false,
-        statusCode,
-        message,
-    })
-})
+        statusCode: err.status || 500,
+        message: err.message || "Internal Server Error",
+    });
+});
