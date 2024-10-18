@@ -1,4 +1,4 @@
-import mangoose from "mongoose";
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
     username:{
@@ -26,10 +26,10 @@ const userSchema = new mongoose.Schema({
         default: "",
     },
   }, 
-  {timestamps: true}
+  {timestamps: true}//created at and updated at data stored
 )
 
-const User = mongoose.model("User", usserSchema)
+const User = mongoose.model("User", userSchema)
 
 
 export default User
