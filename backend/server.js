@@ -35,3 +35,16 @@ app.use ("/api/auth", authRouters)//url will be localhost3000/api/auth/signup/lo
 app.listen(PORT,()=>{
     console.log("Server is running on port"+ PORT)
 })
+
+
+//error handler must be written at the end
+app.use((err,req,res,next) => {
+    const statusCode = err.StatusCode || 500
+    const message = err.message ||  "internal server error"
+
+    return res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message,
+    })
+})

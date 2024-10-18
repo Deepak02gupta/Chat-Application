@@ -1,8 +1,9 @@
 import User from "../models/user.model.js"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { errorHandler } from "../utils/error.js"
 
-export const signup = async(req, res) => { // a function
+export const signup = async(req, res,next) => { // a function
     const {username, email, password ,confirmPassword, gender} = req.body//fields to be accepted from requested body
 
     let validUser
@@ -10,17 +11,14 @@ export const signup = async(req, res) => { // a function
     validUser = await User.findOne({email})
 
     if(validUser){
-        return res.status(400).json({
-            success:false,
-            message:"User already exist"
-        })
-    }
+        return next(errorHandler(400, "User already exists"))
+        }
+    
 
     if(password != confirmPassword){
-        return res.status(400).json({
-            error: "Passwords do not match",
-        })
+        return next(errorHandler(400, "Password do not match"))
     }
+    
 //now we will create user so before this i have to hash the password here we will use bcript
     const hashedPassword = bcryptjs.hashSync(password,10)//jitna jyada salt no utna strong password and utna jyada time to create user
 
@@ -49,15 +47,16 @@ try {
         username: newUser.username,
         email: newUser.email,
         profilePic: newUser.profilePic,
-    })
+    });
     } catch (error) {
-        console.log("Error" + error)
-        res.status(500).json({
-            error: "Internal server error",
-            details: error.message,
-        })
+        next(error)
+        // console.log("Error" + error)
+        // res.status(500).json({
+        //     error: "Internal server error",
+        //     details: error.message,
+        }
     }
-}
+    
 
 export const login= (req, res) => {}
 
