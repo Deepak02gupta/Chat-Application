@@ -94,6 +94,7 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { errorHandler } from "../utils/error.js";
+import { error } from "console";
 
 export const signup = async (req, res, next) => {
     const { username, email, password, confirmPassword, gender } = req.body;
@@ -166,9 +167,16 @@ export const login = async (req, res, next) => {
     }
 };
 
-export const logout = (req, res) => {
-    res.clearCookie("access_token");
-    res.status(200).json({ message: "Logged out successfully" });
+export const logout = (req, res,next) => {
+    try{
+        res.clearCookie("access_token")
+
+        res.status(200).json({
+            message: "User has been logged out successfully"
+        })
+    }catch(error){
+        next(error)
+    }
 };
 
     

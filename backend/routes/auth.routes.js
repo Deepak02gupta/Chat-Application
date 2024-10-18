@@ -6,6 +6,6 @@ router.post("/signup", signup)//signup function will be impoerted from the contr
 
 router.post("/login", login)
 
-router.post("/logout", logout)
+router.get("/logout", logout)
 
 export default router
