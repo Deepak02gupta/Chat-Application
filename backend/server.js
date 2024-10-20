@@ -29,7 +29,7 @@ app.get("/",(req,res) => {
 
 //import routes
 import authRouters from "./routes/auth.routes.js"
-import messageRoute from "./routes/message.route.js"
+import messageRoute from "./routes/message.routes.js"
 //idhar authRoutes hai
 app.use ("/api/auth", authRouters)//url will be localhost3000/api/auth/signup/login/llogout
 app.use("/api/messages",messageRoute)
